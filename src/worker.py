@@ -39,9 +39,9 @@ def addStocks():
     print("add all stocks successfully")
 
 
-def addHistoryDaily(days=180):
-    items = dboper.getStocks()
-    if (items is None):
+def addHistoryDaily(days=300):
+    stocks = dboper.getStocks()
+    if (stocks is None or len(stocks)<=0):
         print("no stock fetched")
         return
 
@@ -49,25 +49,25 @@ def addHistoryDaily(days=180):
     start = (datetime.datetime.now() -
              datetime.timedelta(days=days)).strftime("%Y%m%d")
     print("{0}-{1} records will be inserted".format(start, stop))
-    for item in items:
-        details = _getDetails(item[0], start, stop)
+    for stock in stocks:
+        details = _getDetails(stock.code, start, stop)
         for detail in details:
             dboper.insertDaily(detail)
         print("----------{0}:{1} insert all daily records".format(
-            item[0], item[1]))
+            stock.code, stock.name))
 
 
 def addDaily():
-    items = dboper.getStocks()
-    if (items is None):
+    stocks = dboper.getStocks()
+    if (stocks is None or len(stocks)<=0):
         print("no stock fetched")
         return
-    for item in items:
-        daily = _getDetail("{0}{1}".format(item[2], item[0]))
-        daily.code = item[0]
+    for stock in stocks:
+        daily = _getDetail("{0}{1}".format(stock.prefix, stock.code))
+        daily.code = stock.code
         dboper.insertDaily(daily, True)
         print("----------{0}:{1} insert one daily record".format(
-            item[0], item[1]))
+            stock.code, stock.name))
 
 
 def _getDetails(code, start, stop):

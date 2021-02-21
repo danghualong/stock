@@ -1,5 +1,6 @@
 import sqlite3
 import os
+from .model import Daily,Stock
 
 DB_NAME = os.path.join(os.path.abspath("."), 'stock.db')
 
@@ -28,13 +29,19 @@ def insertStock(stock):
 
 
 def getStocks():
-    result = None
+    result = []
     try:
         conn = sqlite3.connect(DB_NAME)
         # print("getStocks connect db successfully")
         cur = conn.cursor()
         cur.execute('select * from stock')
-        result = cur.fetchall()
+        items = cur.fetchall()
+        for item in items:
+            stock = Stock()
+            stock.code = item[0]
+            stock.name = item[1]
+            stock.prefix = item[2]
+            result.append(stock)
     except Exception as e:
         print(e)
     finally:
@@ -100,6 +107,54 @@ def insertDaily(daily, replace=False):
         if conn:
             conn.close()
 
+def getDailys(code,N):
+    result = []
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        cur = conn.cursor()
+        cur.execute('select * from daily where code=? order by date desc limit ?',(code,N,))
+        items = cur.fetchall()
+        for item in items:
+            daily = Daily()
+            daily.code = item[0]
+            daily.date = item[1]
+            daily.open = item[2]
+            daily.last_close = item[3]
+            daily.current = item[4]
+            daily.high = item[5]
+            daily.low = item[6]
+            daily.quantity = item[7]
+            daily.amount = item[8]
+            daily.bid1 = item[9]
+            daily.bid1_amount = item[10]
+            daily.bid2 = item[11]
+            daily.bid2_amount = item[12]
+            daily.bid3 = item[13]
+            daily.bid3_amount = item[14]
+            daily.bid4 = item[15]
+            daily.bid4_amount = item[16]
+            daily.bid5 = item[17]
+            daily.bid5_amount = item[18]
+            daily.ask1 = item[19]
+            daily.ask1_amount = item[20]
+            daily.ask2 = item[21]
+            daily.ask2_amount = item[22]
+            daily.ask3 = item[23]
+            daily.ask3_amount = item[24]
+            daily.ask4 = item[25]
+            daily.ask4_amount = item[26]
+            daily.ask5 = item[27]
+            daily.ask5_amount = item[28]
+            daily.turnover = item[30]
+            result.append(daily)
+    except Exception as e:
+        print(e)
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+    return result[::-1]
 
 if __name__ == "__main__":
 
