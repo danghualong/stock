@@ -26,5 +26,6 @@ if __name__ == "__main__":
     # stock.code = '300760'
     # stock.name="迈瑞医疗"
     # ShowSingleMA(stock)
-    stat.selectStock(days=10)
+    result = stat.selectStock(days=10)
+    print(result)
     

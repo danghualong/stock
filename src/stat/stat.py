@@ -62,7 +62,7 @@ def calcMA(traits, N=5):
             slowIndex += 1
 
 
-def selectStock(days=20):
+def selectStock(days=20,maxN=10):
     results=[]
     stocks = dboper.getStocks()
     for stock in stocks:
@@ -71,11 +71,11 @@ def selectStock(days=20):
         for daily in dailys:
             trait = _populateTrait(daily)
             traits.append(trait)
-        if (len(traits) < days):
+        if (len(traits) < maxN + days - 1):
             continue
         calcMA(traits, 5)
         calcMA(traits, 10)
-        if (MAPolicy.isTarget(traits, breakDays=2, maSlow=5, maFast=10)):
+        if (MAPolicy.isTarget(traits,totalDays=days,breakDays=2, maSlow=5, maFast=10)):
             results.append({stock.code: stock.name})
     return results
         

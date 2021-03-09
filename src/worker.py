@@ -50,14 +50,16 @@ def addHistoryDaily(days=300):
     start = (datetime.datetime.now() -
              datetime.timedelta(days=days)).strftime("%Y%m%d")
     print("{0}-{1} records will be inserted".format(start, stop))
+    index=0
     for stock in stocks:
         details = _getDetails(stock.code, start, stop)
+        index += 1
         if (details is None):
             continue
         for detail in details:
             dboper.insertDaily(detail)
-        print("----------{0}:{1} insert all daily records".format(
-            stock.code, stock.name))
+        print("-------{2}/{3}---{0}:{1} insert all daily records".format(
+            stock.code, stock.name,index,len(stocks)))
 
 
 def addDaily():
