@@ -4,6 +4,7 @@ import src.stat.table as table
 import src.stat.trends as trends
 from src.model import Stock
 
+
 def ShowSingleMA(stock):
     traits = stat.caclTrait(stock.code)
     table.showMA(traits, stock, True)
@@ -21,8 +22,8 @@ def ShowBreakThroughPoint(code):
 
 if __name__ == "__main__":
     # trends.showCurrentTrends()
-    stock = Stock()
-    stock.code = '601318'
-    stock.name="中国平安"
-    ShowSingleATR(stock)
+    # stock = Stock()
+    # stock.code = '300760'
+    # stock.name="迈瑞医疗"
+    # ShowSingleMA(stock)
     

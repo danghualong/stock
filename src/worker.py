@@ -2,8 +2,9 @@ import requests
 from .model import Stock
 from . import dboper
 from . import const
-from .parsers import historyParser, dailyPriceParser
+from .parsers import historyParser, dailyPriceParser,jisuStockParser
 import datetime
+
 
 
 def addStocks():
@@ -51,6 +52,8 @@ def addHistoryDaily(days=300):
     print("{0}-{1} records will be inserted".format(start, stop))
     for stock in stocks:
         details = _getDetails(stock.code, start, stop)
+        if (details is None):
+            continue
         for detail in details:
             dboper.insertDaily(detail)
         print("----------{0}:{1} insert all daily records".format(
@@ -74,7 +77,12 @@ def _getDetails(code, start, stop):
     url = const.HISTORY_PRICE_URL.format(code, start, stop)
     resp = requests.get(url)
     content = resp.text
-    details = historyParser.parse(content)
+    details=None
+    try:
+        details = historyParser.parse(content)
+    except Exception as ex:
+        print("**********code:{0} error*************".format(code))
+        print(ex)
     return details
 
 
@@ -84,3 +92,16 @@ def _getDetail(code):
     content = resp.text
     daily = dailyPriceParser.parse(content)
     return daily
+
+
+def getStocks(pageNum):
+    url=const.JISU_STOCK_URL.format(pageNum)
+    resp = requests.get(url)
+    content = resp.text
+    stocks = jisuStockParser.parse(content)
+    if (stocks != None):
+        for stock in stocks:
+            dboper.insertStock(stock)
+        print("page {0}, total {1} data are inserted".format(pageNum,len(stocks)))
+    else:
+        print("No stocks to insert")
