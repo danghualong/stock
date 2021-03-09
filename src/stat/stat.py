@@ -62,7 +62,7 @@ def calcMA(traits, N=5):
             slowIndex += 1
 
 
-def SelectStock(days=20):
+def selectStock(days=20):
     results=[]
     stocks = dboper.getStocks()
     for stock in stocks:
