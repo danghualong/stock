@@ -1,4 +1,4 @@
-from ..model import Daily
+from ...model import Daily
 
 
 def parse(content):

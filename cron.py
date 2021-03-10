@@ -1,8 +1,6 @@
-import src.worker as worker
+from src.cron.service import add_stock_service as AddStockService, add_stocks_service as AddStocksService, add_history_service as ahs, add_current_daily_service as acds
 
 if __name__=="__main__":
-    # worker.addStocks()
-    worker.addHistoryDaily()
-    # worker.addDaily()
-
-    # worker._getDetails('600001','20200513','20210309')
+    AddStockService.addStocks()
+    ahs.addHistoryDaily()
+    acds.addDaily()

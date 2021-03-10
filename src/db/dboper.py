@@ -1,6 +1,6 @@
 import sqlite3
 import os
-from .model import Daily,Stock
+from ..model import Daily,Stock
 
 DB_NAME = os.path.join(os.path.abspath("."), 'stock.db')
 
@@ -34,7 +34,7 @@ def getStocks():
         conn = sqlite3.connect(DB_NAME)
         # print("getStocks connect db successfully")
         cur = conn.cursor()
-        cur.execute('select * from stock where type<9')
+        cur.execute('select * from stock')
         items = cur.fetchall()
         for item in items:
             stock = Stock()

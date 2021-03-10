@@ -1,4 +1,4 @@
-from ..model import Daily
+from ...model import Daily
 import re
 import json
 

@@ -1,5 +1,5 @@
 import json
-from ..model import Stock
+from ...model import Stock
 
 
 
