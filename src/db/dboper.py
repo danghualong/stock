@@ -34,7 +34,7 @@ def getStocks():
         conn = sqlite3.connect(DB_NAME)
         # print("getStocks connect db successfully")
         cur = conn.cursor()
-        cur.execute('select * from stock')
+        cur.execute('select * from stock where type<9')
         items = cur.fetchall()
         for item in items:
             stock = Stock()

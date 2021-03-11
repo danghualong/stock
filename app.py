@@ -4,11 +4,11 @@ from src.model import Stock
 
 if __name__ == "__main__":
     # Test1
-    bp.ShowBreakThroughPoint('300760')
+    # bp.ShowBreakThroughPoint('300760')
 
     # Test2
-    # result = sf.selectStock(days=10,breakDays=1)
-    # print(result)
+    result = sf.selectStock(days=10,breakDays=3)
+    print(result)
 
     # Test3
     # stock = Stock()
