@@ -1,20 +1,6 @@
-from src.stat.controller import break_point as bp, stock_filter as sf
-from src.stat.view import trends, single_atr_view, single_ma_view
-from src.model import Stock
+from src import createApp
 
-if __name__ == "__main__":
-    # Test1
-    # bp.ShowBreakThroughPoint('300760')
+app = createApp()
 
-    # Test2
-    result = sf.selectStock(days=10,breakDays=3)
-    print(result)
-
-    # Test3
-    # stock = Stock()
-    # stock.code = '300760'
-    # stock.name="迈瑞医疗"
-    # single_ma_view.ShowSingleMA(stock)
-
-    # Test4
-    # trends.showCurrentTrends()
+if __name__ == '__main__':
+    app.run()

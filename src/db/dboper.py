@@ -1,9 +1,10 @@
 import sqlite3
 import os
-from ..model import Daily,Stock
+from ..model import Daily, Stock
+from ..settings import configs
 
-DB_NAME = os.path.join(os.path.abspath("."), 'stock.db')
 
+DB_NAME = configs[os.getenv("FLASK_ENV", "development")].SQLALCHEMY_DATABASE_URI
 
 def insertStock(stock):
     try:
@@ -27,7 +28,6 @@ def insertStock(stock):
         if conn:
             conn.close()
 
-
 def getStocks():
     result = []
     try:
@@ -50,7 +50,6 @@ def getStocks():
         if conn:
             conn.close()
     return result
-
 
 def insertDaily(daily, replace=False):
     try:

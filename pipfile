@@ -8,3 +8,6 @@ verify_ssl = true
 [packages]
 requests = "*"
 matplotlib = "*"
+flask = "*"
+flask-apscheduler = "*"
+python-dotenv = "*"
