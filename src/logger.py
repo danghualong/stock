@@ -11,10 +11,12 @@ def init_app(app):
     fh=RotatingFileHandler(os.path.join(dir,'mylog.log'),maxBytes=10*1024*1024,backupCount=5)
     fh.setLevel(logging.INFO)
     fh.setFormatter(formatter)
+    currentLogger.addHandler(fh)
     app.logger = currentLogger
-    app.logger.addHandler(fh)
 
 def _getLogger():
-    return logging.getLogger("default")
+    logger = logging.getLogger("default")
+    logger.setLevel(logging.INFO)
+    return logger
 
 currentLogger=_getLogger()
