@@ -3,3 +3,4 @@ env
 __pycache__
 stock.db
 .env
+logs

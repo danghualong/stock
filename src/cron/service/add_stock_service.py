@@ -1,5 +1,6 @@
 from ...model import Stock
 from ...db import dboper
+from ...logger import currentLogger
 
 def addStocks():
     stocks = [
@@ -31,4 +32,4 @@ def addStocks():
         stock.name = item[1]
         stock.prefix = item[2]
         dboper.insertStock(stock)
-    print("add all stocks successfully")
+    currentLogger.info("add all stocks successfully")

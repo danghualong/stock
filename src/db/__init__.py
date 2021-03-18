@@ -1,15 +1,17 @@
 from ..settings import configs
 import os
 import sqlite3
+from ..logger import currentLogger
 
 
 def init_app(app):
     DB_NAME = app.config["SQLALCHEMY_DATABASE_URI"]
+    currentLogger.info("DB is {0}".format(DB_NAME))
     if not os.path.exists(DB_NAME):
         # 创建数据库
         createdb(DB_NAME)
     else:
-        print("{0} has already been existing".format(DB_NAME))
+        currentLogger.warn("{0} has already been existing".format(DB_NAME))
 
 def createdb(dbName):
     try:
@@ -66,9 +68,9 @@ def createdb(dbName):
             );
             ''')
         conn.commit()
-        print("{0} has been created".format(dbName))
+        currentLogger.info("{0} has been created".format(dbName))
     except Exception as e:
-        print(e)
+        currentLogger.error('%s',e)
     finally:
         if cur!=None:
             cur.close()

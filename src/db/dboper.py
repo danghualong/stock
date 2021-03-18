@@ -2,6 +2,7 @@ import sqlite3
 import os
 from ..model import Daily, Stock
 from ..settings import configs
+from ..logger import currentLogger
 
 
 DB_NAME = configs[os.getenv("FLASK_ENV", "development")].SQLALCHEMY_DATABASE_URI
@@ -21,11 +22,11 @@ def insertStock(stock):
             ))
         conn.commit()
     except Exception as e:
-        print(e)
+        currentLogger.error("%s",e)
     finally:
-        if cur:
+        if cur!=None:
             cur.close()
-        if conn:
+        if conn!=None:
             conn.close()
 
 def getStocks():
@@ -43,11 +44,11 @@ def getStocks():
             stock.prefix = item[2]
             result.append(stock)
     except Exception as e:
-        print(e)
+        currentLogger.error("%s",e)
     finally:
-        if cur:
+        if cur!=None:
             cur.close()
-        if conn:
+        if conn!=None:
             conn.close()
     return result
 
@@ -99,11 +100,11 @@ def insertDaily(daily, replace=False):
             ))
         conn.commit()
     except Exception as e:
-        print(e)
+        currentLogger.error("%s",e)
     finally:
-        if cur:
+        if cur!=None:
             cur.close()
-        if conn:
+        if conn!=None:
             conn.close()
 
 def getDailys(code,N):
@@ -147,11 +148,11 @@ def getDailys(code,N):
             daily.turnover = item[30]
             result.append(daily)
     except Exception as e:
-        print(e)
+        currentLogger.error("%s",e)
     finally:
-        if cur:
+        if cur!=None:
             cur.close()
-        if conn:
+        if conn!=None:
             conn.close()
     return result[::-1]
 

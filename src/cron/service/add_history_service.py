@@ -1,6 +1,7 @@
 from ...constant import urls
 from ...db import dboper
 from ..parsers import historyParser
+from ...logger import currentLogger
 import datetime
 import requests
 
@@ -8,13 +9,13 @@ import requests
 def addHistoryDaily(days=300):
     stocks = dboper.getStocks()
     if (stocks is None or len(stocks)<=0):
-        print("no stock fetched")
+        currentLogger.warn("no stock fetched")
         return
 
     stop = datetime.datetime.now().strftime("%Y%m%d")
     start = (datetime.datetime.now() -
              datetime.timedelta(days=days)).strftime("%Y%m%d")
-    print("{0}-{1} records will be inserted".format(start, stop))
+    currentLogger.info("{0}-{1} records will be inserted".format(start, stop))
     index=0
     for stock in stocks:
         details = _getDetails(stock.code, start, stop)
@@ -23,7 +24,7 @@ def addHistoryDaily(days=300):
             continue
         for detail in details:
             dboper.insertDaily(detail)
-        print("-------{2}/{3}---{0}:{1} insert all daily records".format(
+        currentLogger.info("-------{2}/{3}---{0}:{1} insert all daily records".format(
             stock.code, stock.name,index,len(stocks)))
 
 def _getDetails(code, start, stop):
@@ -34,6 +35,5 @@ def _getDetails(code, start, stop):
     try:
         details = historyParser.parse(content)
     except Exception as ex:
-        print("**********code:{0} error*************".format(code))
-        print(ex)
+        currentLogger.error("code:{0} error \n%s",ex)
     return details

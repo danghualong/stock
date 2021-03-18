@@ -4,11 +4,13 @@ from .service import add_stock_service as ass_part
 from .service import add_stocks_service as ass_all
 from .service import add_history_service as ahs
 from .service import add_current_daily_service as acds
+from ..logger import currentLogger
 
 def init_app(app):
     scheduler = APScheduler(BackgroundScheduler(timezone="Asia/Shanghai"))
     scheduler.init_app(app)
     scheduler.start()
+    currentLogger.info("调度任务已开启")
 
 def job1():
     ass_part.addStocks()

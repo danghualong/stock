@@ -2,6 +2,7 @@ import requests
 from ...constant import urls
 from ...db import dboper
 from ..parsers import jisuStockParser
+from ...logger import currentLogger
 
 def getStocks(pageNum):
     url=urls.JISU_STOCK_URL.format(pageNum)
@@ -11,6 +12,6 @@ def getStocks(pageNum):
     if (stocks != None):
         for stock in stocks:
             dboper.insertStock(stock)
-        print("page {0}, total {1} data are inserted".format(pageNum,len(stocks)))
+        currentLogger.info("page {0}, total {1} data are inserted".format(pageNum,len(stocks)))
     else:
-        print("No stocks to insert")
+        currentLogger.info("No stocks to insert")
