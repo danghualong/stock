@@ -1,7 +1,7 @@
 from flask import Flask
 import os
 from .settings import configs
-from . import cron, logger, db
+from . import cron, logger, db, routers
 
 
 def createApp(configName=None):
@@ -12,4 +12,5 @@ def createApp(configName=None):
     logger.init_app(app)
     db.init_app(app)
     cron.init_app(app)
+    routers.init_app(app)
     return app

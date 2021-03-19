@@ -2,8 +2,11 @@ from ...db import dboper
 from ..util import trait_builder as TraitBuilder
 from ..service import ma_service as MAService
 from ..policies import ma_policy as MAPolicy
+from .. import stat_bp
+from flask import jsonify
 
 
+@stat_bp.route("/stocks/<int:days>/<int:breakDays>", methods=['GET','POST'])
 def selectStock(days=20,breakDays=1,maFastDays=5,maSlowDays=10):
     '''
     days:比较的天数
@@ -25,5 +28,5 @@ def selectStock(days=20,breakDays=1,maFastDays=5,maSlowDays=10):
         MAService.calcMA(traits, maSlowDays)
         if (MAPolicy.isTarget(traits,totalDays=days,breakDays=breakDays, maFastDays=maFastDays, maSlowDays=maSlowDays)):
             results.append({stock.code: stock.name})
-    return results
+    return jsonify(data=results)
  
