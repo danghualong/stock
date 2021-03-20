@@ -5,7 +5,7 @@ from ..settings import configs
 from ..logger import currentLogger
 
 
-DB_NAME = configs[os.getenv("FLASK_ENV", "development")].SQLALCHEMY_DATABASE_URI
+DB_NAME = configs[os.getenv("FLASK_ENV", "production")].SQLALCHEMY_DATABASE_URI
 
 def insertStock(stock):
     try:
