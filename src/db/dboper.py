@@ -52,6 +52,30 @@ def getStocks():
             conn.close()
     return result
 
+def getStocksByKey(keyword):
+    result = []
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        # print("getStocks connect db successfully")
+        cur = conn.cursor()
+        cur.execute("select * from stock where name like ? or code=?",('%'+keyword+'%',keyword,))
+        items = cur.fetchall()
+        for item in items:
+            stock = Stock()
+            stock.code = item[0]
+            stock.name = item[1]
+            stock.prefix = item[2]
+            result.append(stock)
+    except Exception as e:
+        currentLogger.error("%s",e)
+    finally:
+        if cur!=None:
+            cur.close()
+        if conn!=None:
+            conn.close()
+    return result
+
+
 def insertDaily(daily, replace=False):
     try:
         conn = sqlite3.connect(DB_NAME)
