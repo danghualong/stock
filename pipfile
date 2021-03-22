@@ -4,11 +4,11 @@ url = "https://pypi.douban.com/simple/"
 verify_ssl = true
 
 [dev-packages]
+python-dotenv = "*"
 
 [packages]
 requests = "*"
 matplotlib = "*"
 flask = "*"
 flask-apscheduler = "*"
-python-dotenv = "*"
 wfastcgi = "*"
