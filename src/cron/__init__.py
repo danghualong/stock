@@ -5,24 +5,10 @@ from .service import add_stocks_service as ass_all
 from .service import add_history_service as ahs
 from .service import add_current_daily_service as acds
 from ..logger import currentLogger
-import platform,atexit
+import sys,atexit
 
 def init_app(app):
-    if platform.system() != 'Windows':
-        fcntl = __import__("fcntl")
-        f = open('scheduler.lock', 'wb')
-        try:
-            fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            startJobs(app)
-        except:
-            pass
-
-        def unlock():
-            fcntl.flock(f, fcntl.LOCK_UN)
-            f.close()
-
-        atexit.register(unlock)
-    else:
+    if sys.platform.startswith("win"):
         msvcrt = __import__('msvcrt')
         f = open('scheduler.lock', 'wb')
         try:
@@ -39,6 +25,20 @@ def init_app(app):
                 pass
 
         atexit.register(_unlock_file)
+    else:
+        fcntl = __import__("fcntl")
+        f = open('scheduler.lock', 'wb')
+        try:
+            fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            startJobs(app)
+        except:
+            pass
+
+        def unlock():
+            fcntl.flock(f, fcntl.LOCK_UN)
+            f.close()
+
+        atexit.register(unlock)
 
 def startJobs(app):
     scheduler = APScheduler(BackgroundScheduler(timezone="Asia/Shanghai"))

@@ -15,8 +15,8 @@ class BaseConfig(object):
             'args': None,              
             'trigger': 'cron',                     # 指定任务触发器 cron
             'day_of_week': 'mon-fri',              # 每周1至周5下午16点执行 
-            'hour': 16,
-            'minute': 1                        
+            'hour': 15,
+            'minute': 10                        
         }
     ]
     SCHEDULER_API_ENABLED = True
